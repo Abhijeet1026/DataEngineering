@@ -1,0 +1,40 @@
+-- Code to create external Table
+
+CREATE OR REPLACE EXTERNAL TABLE `celestial-baton-291921.ny_taxi1.external_green_tripdata`
+OPTIONS (
+  format = 'parquet',
+  uris = ['gs://zc_bucket_abhi1/nyc_green_taxi.parquet']
+);
+
+-- Code to copy and create the table in BQ
+
+CREATE OR REPLACE TABLE celestial-baton-291921.ny_taxi1.green_tripdata_raw AS
+SELECT * FROM celestial-baton-291921.ny_taxi1.external_green_tripdata;
+
+
+---- count number of rows
+
+select count(*) from celestial-baton-291921.ny_taxi1.green_tripdata_raw;
+
+-- To check the bytes processed
+
+SELECT COUNT(DISTINCT PULocationID) from celestial-baton-291921.ny_taxi1.green_tripdata_raw;
+
+SELECT COUNT(DISTINCT PULocationID) from celestial-baton-291921.ny_taxi1.external_green_tripdata;
+
+-- Code to create partition and cluster table
+
+CREATE OR REPLACE TABLE taxi-rides-ny.nytaxi.green_tripdata_partitoned_clustered
+PARTITION BY DATE(lpep_pickup_datetime)
+CLUSTER BY PUlocationID AS
+SELECT * FROM celestial-baton-291921.ny_taxi1.external_green_tripdata;
+
+-- Code to check byte process for partitioned and materlized table
+
+SELECT distinct(PULocationID) FROM celestial-baton-291921.ny_taxi1.green_tripdata_partitoned_clustered WHERE DATE(lpep_pickup_datetime) between '2022-06-01' and '2022-06-30'; 
+
+SELECT distinct(PULocationID) FROM celestial-baton-291921.ny_taxi1.green_tripdata_raw WHERE DATE(lpep_pickup_datetime) between '2022-06-01' and '2022-06-30'; 
+
+
+
+
