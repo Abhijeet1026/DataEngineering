@@ -1,3 +1,12 @@
+{{ config(
+    materialized='view',
+    partition_by={'field': 'released_at', 'data_type': 'TIMESTAMP'},  
+    cluster_by=['set_name']        
+) }}
+
+
+
+
 with 
 
 source as (
