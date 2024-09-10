@@ -1,0 +1,1 @@
+{"_invocation_id": "d0d3f115-0839-46e4-ad9d-6e4be86f93eb", "linked": {"0": {"name": "source.mtg_project.staging.default_cards_data", "type": "source", "succ": [1]}, "1": {"name": "model.mtg_project.stg_staging_mtg", "type": "model"}}}
