@@ -6,12 +6,14 @@ source as (
 
 renamed as (
     select
+       
         id,
         name,
         released_at,
         color_identity,
+        {{ get_color_idenity_description('color_identity') }} as color,
         set_name,
-        atist,
+        artist,
         usd_prices,
         euro_prices,
         DataExtraction_date
