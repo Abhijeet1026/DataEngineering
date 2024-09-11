@@ -1,4 +1,8 @@
-
+{{ config(
+    materialized='view',
+    partition_by={'field': 'released_at', 'data_type': 'Timestamp'},  
+    cluster_by=['set_name']        
+) }}
 
 with 
 
@@ -14,6 +18,7 @@ renamed as (
         name,
         released_at,
         color_identity,
+        {{get_color_idenity('color_identity') }} as color,
         set_name,
         artist,
         usd_prices,
